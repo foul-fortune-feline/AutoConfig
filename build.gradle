@@ -9,8 +9,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -27,20 +27,20 @@ loom {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:$minecraft_version")
-    mappings("net.fabricmc:yarn:$yarn_mappings:v2")
-    modImplementation("net.fabricmc:fabric-loader:$loader_version")
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
+    mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
     dependModule("fabric-api-base", fabric_version)
     dependModule("fabric-resource-loader-v0", fabric_version, false)
 
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:7.0.61") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modCompileOnly("com.terraformersmc:modmenu:3.0.1") {
+    modCompileOnly("com.terraformersmc:modmenu:4.0.0-beta.3") {
         transitive = false
     }
-    modLocalRuntime("com.terraformersmc:modmenu:3.0.1") {
+    modLocalRuntime("com.terraformersmc:modmenu:4.0.0-beta.3") {
         transitive = false
     }
 

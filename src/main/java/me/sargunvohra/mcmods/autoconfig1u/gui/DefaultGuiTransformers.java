@@ -9,9 +9,10 @@ import me.shedaniel.clothconfig2.gui.entries.TextListEntry;
 import me.shedaniel.clothconfig2.gui.entries.TooltipListEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,14 +41,14 @@ public class DefaultGuiTransformers {
                             tryApplyTooltip(
                                 gui,
                                 new Text[]{
-                                    new TranslatableText(String.format("%s.%s", i13n, "@Tooltip"))
+                                    MutableText.of(new TranslatableTextContent(String.format("%s.%s", i13n, "@Tooltip")))
                                 }
                             );
                         } else {
                             tryApplyTooltip(
                                 gui, IntStream.range(0, tooltip.count()).boxed()
                                     .map(i -> String.format("%s.%s[%d]", i13n, "@Tooltip", i))
-                                    .map(TranslatableText::new)
+                                    .map(TranslatableTextContent::new)
                                     .toArray(Text[]::new)
                             );
                         }
@@ -62,7 +63,7 @@ public class DefaultGuiTransformers {
                 .peek(gui -> {
                     if (!(gui instanceof TextListEntry)) {
                         Comment tooltip = field.getAnnotation(Comment.class);
-                        Text[] text = new Text[]{new LiteralText(tooltip.value())};
+                        Text[] text = new Text[]{MutableText.of(new LiteralTextContent(tooltip.value()))};
                         tryApplyTooltip(gui, text);
                     }
                 })
@@ -86,7 +87,7 @@ public class DefaultGuiTransformers {
             (guis, i13n, field, config, defaults, guiProvider) -> {
                 ArrayList<AbstractConfigListEntry> ret = new ArrayList<>(guis);
                 String text = String.format("%s.%s", i13n, "@PrefixText");
-                ret.add(0, ENTRY_BUILDER.startTextDescription(new TranslatableText(text)).build());
+                ret.add(0, ENTRY_BUILDER.startTextDescription(MutableText.of(new TranslatableTextContent(text))).build());
                 return Collections.unmodifiableList(ret);
             },
             ConfigEntry.Gui.PrefixText.class
